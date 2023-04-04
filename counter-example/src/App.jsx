@@ -1,13 +1,31 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 
 function App() {
   const count = useSelector((state) => state.count);
+  const dispatch = useDispatch();
 
-  const increment = () => {};
-  const decrement = () => {};
-  const reset = () => {};
-  const incrementByCount = () => {};
+  const increment = () => {
+    dispatch({
+      type: "INCREMENT",
+    });
+  };
+  const decrement = () => {
+    dispatch({
+      type: "DECREMENT",
+    });
+  };
+  const reset = () => {
+    dispatch({
+      type: "RESET",
+    });
+  };
+  const incrementByCount = () => {
+    dispatch({
+      type: "INCREMENT_BY_COUNT",
+      payload: 10,
+    });
+  };
   return (
     <div className="App">
       <h1>Count {count}</h1>
