@@ -1,24 +1,14 @@
-import {
-  legacy_createStore as createStore,
-  combineReducers,
-  compose,
-  applyMiddleware,
-} from "redux";
+import { legacy_createStore as createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import productsReducer from "./products";
-import { addLoggingOnDispatch } from "../add-ons/enhancers";
-import { logger } from "../add-ons/middlewares";
 
 const rootReducer = combineReducers({
   products: productsReducer,
 });
 
-const composedEnhancer = compose(addLoggingOnDispatch);
-const middlewareEnhancer = applyMiddleware(logger);
+// const composedEnhancer = compose(addLoggingOnDispatch);
+// const middlewareEnhancer = applyMiddleware(logger, blockAction);
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(composedEnhancer, middlewareEnhancer)
-);
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;
