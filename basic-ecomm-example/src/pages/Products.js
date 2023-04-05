@@ -4,7 +4,7 @@ import ProductItem from "../components/ProductItem";
 
 const Products = () => {
   // const [products] = useState([]);
-  const products = useSelector((state) => state.products);
+  const products = useSelector(({ products }) => products.products);
   const dispatch = useDispatch();
 
   const addFavorite = (id) => {
