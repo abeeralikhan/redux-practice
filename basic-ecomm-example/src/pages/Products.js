@@ -18,6 +18,9 @@ const Products = () => {
     dispatch({
       type: "products/LOAD_PRODUCT",
     });
+    dispatch({
+      type: "products/BOXING_DAY_OFFERS",
+    });
   }, [dispatch]);
 
   return (
