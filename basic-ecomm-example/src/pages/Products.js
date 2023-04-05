@@ -1,14 +1,25 @@
-import React from 'react';
-import ProductItem from '../components/ProductItem';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductItem from "../components/ProductItem";
 
 const Products = () => {
-  const [products] = React.useState([]);
+  // const [products] = useState([]);
+  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
   const addFavorite = (id) => {
-    console.log('Adding product to favorite', id);
+    console.log("Adding product to favorite", id);
   };
   const addToCart = (id) => {
-    console.log('Adding product to cart', id);
+    console.log("Adding product to cart", id);
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "products/LOAD_PRODUCT",
+    });
+  }, [dispatch]);
+
   return (
     <div>
       <ul className="list-group">
