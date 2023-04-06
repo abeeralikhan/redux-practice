@@ -1,7 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+  const favoriteItems = useSelector(({ productsSlice }) => {
+    return productsSlice.products.reduce((curr, item) => {
+      return item.isFavorite ? curr + 1 : curr;
+    }, 0);
+  });
+
   return (
     <div className="navbar navbar-dark bg-primary">
       <div className="navbar-header pull-left">
@@ -14,7 +21,7 @@ const Header = () => {
           Products
         </Link>
         <Link to="/favorites" className="btn btn-default text-white navbar-btn">
-          Favorites (0)
+          Favorites ({favoriteItems})
         </Link>
         <Link to="/cart" className="btn btn-default text-white navbar-btn">
           Cart (0)

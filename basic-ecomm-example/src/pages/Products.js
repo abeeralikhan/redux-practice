@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../components/ProductItem";
 
 const Products = () => {
-  // const [products] = useState([]);
-  const products = useSelector(({ products }) => products.products);
+  const products = useSelector(({ productsSlice }) => productsSlice.products);
   const dispatch = useDispatch();
 
   const addFavorite = (id) => {
@@ -18,10 +17,19 @@ const Products = () => {
     dispatch({
       type: "products/LOAD_PRODUCT",
     });
-    dispatch({
-      type: "products/BOXING_DAY_OFFERS",
-    });
   }, [dispatch]);
+
+  if (products.length) {
+    localStorage.setItem("APP_PRODUCTS", JSON.stringify(products));
+  }
+
+  if (!products.length) {
+    return (
+      <div className="">
+        <strong></strong>
+      </div>
+    );
+  }
 
   return (
     <div>

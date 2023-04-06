@@ -1,28 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddNewProduct = () => {
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [image, setImage] = useState('');
-  const [category, setCategory] = useState('Mobile');
-  const [price, setPrice] = useState(0);
-  const [status] = useState('');
+  const [status] = useState("");
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    image: "",
+    category: "Mobile",
+    price: 0,
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onFormChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const product = {
-      title,
-      description: desc,
-      image,
-      category,
-      price,
+      title: formData.title,
+      description: formData.description,
+      image: formData.image,
+      category: formData.category,
+      price: formData.price,
     };
-    console.log(product);
+    dispatch({
+      type: "product/ADD_PRODUCT",
+      payload: product,
+    });
+    navigate("/");
   };
 
   return (
     <>
-      {status === 'saving' && (
+      {status === "saving" && (
         <div className="alert alert-dismissible alert-info">
           <strong>Info ! </strong> Saving form data..
         </div>
@@ -32,34 +49,38 @@ const AddNewProduct = () => {
           <label htmlFor="exampleInputEmail1"> Product </label>
           <input
             type="text"
+            name="title"
             className="form-control"
             placeholder="Enter Product Name"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={onFormChange}
           />
         </div>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1"> Description </label>
           <input
             type="text"
+            name="description"
             className="form-control"
             placeholder="Enter Product Name"
-            onChange={(e) => setDesc(e.target.value)}
+            onChange={onFormChange}
           />
         </div>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1"> Image URL </label>
           <input
             type="text"
+            name="image"
             className="form-control"
             placeholder="Enter Product Name"
-            onChange={(e) => setImage(e.target.value)}
+            onChange={onFormChange}
           />
         </div>
         <div className="form-group">
           <label htmlFor="exampleFormControlSelect1">Select Category</label>
           <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={formData.category}
+            name="category"
+            onChange={onFormChange}
             className="form-control"
             id="exampleFormControlSelect1"
           >
@@ -72,9 +93,10 @@ const AddNewProduct = () => {
           <label htmlFor="exampleInputEmail1"> Price </label>
           <input
             type="number"
+            name="price"
             className="form-control"
             placeholder="Enter Product Price"
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={onFormChange}
           />
         </div>
         <button type="submit" className="btn btn-primary">

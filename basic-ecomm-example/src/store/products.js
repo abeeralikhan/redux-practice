@@ -4,36 +4,25 @@ const INITIAL_STATE = {
   products: [],
 };
 
-const PRODUCTS = [
-  {
-    id: uuidv4(),
-    text: "Samsung Galaxy S23 Ultra",
-    isFavorite: true,
-    category: "Mobile",
-    price: 3000,
-  },
-  {
-    id: uuidv4(),
-    text: "Macbook Pro M2",
-    isFavorite: false,
-    category: "Laptp",
-    price: 4000,
-  },
-  {
-    id: uuidv4(),
-    text: "Denim Jeans",
-    isFavorite: false,
-    category: "Clothing",
-    price: 400,
-  },
-];
-
 const productsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "products/LOAD_PRODUCT":
       return {
         ...state,
-        products: [...PRODUCTS],
+        products: !state.products.length ? [] : state.products,
+      };
+    case "product/ADD_PRODUCT":
+      const { title, price, category } = action.payload;
+      const product = {
+        text: title,
+        price,
+        category,
+        id: uuidv4(),
+        isFavorite: false,
+      };
+      return {
+        ...state,
+        products: [...state.products, product],
       };
     default:
       return state;
