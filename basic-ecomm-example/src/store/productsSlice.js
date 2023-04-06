@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
 
-const INITIAL_STATE = {
+const defaultState = {
   products: [],
 };
 
-const productsReducer = (state = INITIAL_STATE, action) => {
+const productsReducer = (state = defaultState, action) => {
   switch (action.type) {
     case "products/LOAD_PRODUCT":
       return {
@@ -23,6 +23,14 @@ const productsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         products: [...state.products, product],
+      };
+    case "favorites/ADD_FAVORITE":
+      return {
+        ...state,
+        products: state.products.map((item) => {
+          if (action.payload !== item.id) return item;
+          return { ...item, isFavorite: !item.isFavorite };
+        }),
       };
     default:
       return state;

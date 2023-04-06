@@ -1,9 +1,11 @@
 import { legacy_createStore as createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import productsReducer from "./products";
+import productsReducer from "./productsSlice";
+import favoritesReducer from "./favoritesSlice";
 
 const rootReducer = combineReducers({
   productsSlice: productsReducer,
+  favoritesSlice: favoritesReducer,
 });
 
 // const composedEnhancer = compose(addLoggingOnDispatch);
