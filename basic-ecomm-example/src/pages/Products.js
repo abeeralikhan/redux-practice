@@ -1,21 +1,15 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ProductItem from "../components/ProductItem";
 import { Link } from "react-router-dom";
 
-const Products = () => {
-  const products = useSelector(({ productsSlice }) => productsSlice.products);
-  const dispatch = useDispatch();
+const selectProductIds = (state) => {
+  return state.productsSlice.products.map((product) => product.id);
+};
 
-  const addFavorite = (id) => {
-    dispatch({
-      type: "favorites/ADD_FAVORITE",
-      payload: id,
-    });
-  };
-  const addToCart = (id) => {
-    console.log("Adding product to cart", id);
-  };
+const Products = () => {
+  const productIds = useSelector(selectProductIds, shallowEqual);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({
@@ -23,11 +17,7 @@ const Products = () => {
     });
   }, [dispatch]);
 
-  if (products.length) {
-    localStorage.setItem("APP_PRODUCTS", JSON.stringify(products));
-  }
-
-  if (!products.length) {
+  if (!productIds.length) {
     return (
       <div className="alert alert-dismissable alert-info">
         <strong>Alert!</strong> Please start adding products
@@ -39,13 +29,8 @@ const Products = () => {
   return (
     <div>
       <ul className="list-group">
-        {products.map((prod) => (
-          <ProductItem
-            key={prod.id}
-            item={prod}
-            onFavorite={addFavorite}
-            onCartAdd={addToCart}
-          />
+        {productIds.map((productId) => (
+          <ProductItem key={productId} productId={productId} />
         ))}
       </ul>
     </div>
